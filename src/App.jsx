@@ -15,7 +15,9 @@ import {
   Cpu,
   RefreshCw,
   X,
-  Gauge
+  Gauge,
+  Compass,
+  Users
 } from 'lucide-react';
 
 const INITIAL_PROJECTS = [
@@ -129,6 +131,42 @@ const INITIAL_LOTS = [
     siteReady: false,
     scans: 1,
     norm: 'AISC Tolerancias OK'
+  }
+];
+
+const MOOD_ROADMAP = [
+  {
+    phase: 'Fase 1: Meses 1 - 12',
+    title: 'Visibilidad, Estandarización y Datos',
+    focus: 'Detener fuga de margen y unificar datos operativos sin fricción en planta.',
+    implementations: [
+      'Despliegue de Torre de Control Base (EVM, SPI/CPI, OTIF).',
+      'Sincronización de flujos BIM (Tekla / Advance Steel) a piso de taller.',
+      'Instauración del Comité Directivo Semanal de PMO basado en datos.'
+    ],
+    roles: ['Chief of Staff (CoS)', 'Analista de Datos / BI', 'Líder de Integración BIM', 'Gerentes de Planta (P&L)']
+  },
+  {
+    phase: 'Fase 2: Meses 13 - 24',
+    title: 'Automatización y Trazabilidad Digital',
+    focus: 'Conectar el taller con la obra en tiempo real y reducir drásticamente el COPQ.',
+    implementations: [
+      'Trazabilidad QR de Extremo a Extremo por lote estructural.',
+      'Optimización de Supply Chain y compras anticipadas (ASTM A992).',
+      'Piloto de IA Ejecutiva (Claude + Gemini) para lectura de BOMs y planos.'
+    ],
+    roles: ['Full-Stack Developer (Sistemas)', 'Gerente de Supply Chain', 'Ingenieros QA/QC (Normas AWS/AISC)', 'Reclutador Industrial']
+  },
+  {
+    phase: 'Fase 3: Meses 25 - 36',
+    title: 'Gobierno Corporativo y Escalamiento',
+    focus: 'Operar con autonomía institucionalizada y estructura lista para Norteamérica.',
+    implementations: [
+      'Formalización de Consejo de Administración Independiente.',
+      'Creación de Universidad Corporativa (Certificaciones AWS/AISC).',
+      'Planes de sucesión directiva y estandarización total de manuales.'
+    ],
+    roles: ['Consejeros Externos (Board)', 'Director de Administración y Finanzas (CFO)', 'Director de Universidad Corporativa']
   }
 ];
 
@@ -314,17 +352,18 @@ export default function App() {
         </div>
 
         {/* Apple Segmented Control */}
-        <div className="max-w-7xl mx-auto px-6 pb-3">
+        <div className="max-w-7xl mx-auto px-6 pb-3 overflow-x-auto">
           <div
             className={`inline-flex p-1 rounded-2xl border ${
               darkMode ? 'bg-[#1C1C1E] border-white/10' : 'bg-[#E8E8ED]/80 border-black/[0.04]'
-            } flex-wrap gap-1`}
+            } gap-1`}
           >
             {[
               { id: 'evm', label: '1. Dirección General & EVM', icon: Activity },
               { id: 'bim', label: '2. Ingeniería BIM & Plantas', icon: Layers },
               { id: 'qr', label: '3. Trazabilidad QR & Obra', icon: QrCode },
-              { id: 'gov', label: '4. Gobernanza, IA & What-If', icon: Sliders }
+              { id: 'gov', label: '4. Gobernanza, IA & What-If', icon: Sliders },
+              { id: 'mood', label: '5. Plan MoOD & Roadmap 36m', icon: Compass }
             ].map((tab) => {
               const Icon = tab.icon;
               const active = activeTab === tab.id;
@@ -332,7 +371,7 @@ export default function App() {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                     active
                       ? darkMode
                         ? 'bg-[#2C2C2E] text-white shadow-sm'
@@ -822,6 +861,57 @@ export default function App() {
                 <span>Stack: React + Vite + Tailwind + Supabase</span>
                 <span>Latencia Realtime: 42ms</span>
               </div>
+            </div>
+          </section>
+        )}
+
+        {/* VIEW 5: PLAN MOOD & ROADMAP (NUEVO) */}
+        {activeTab === 'mood' && (
+          <section className={`p-6 rounded-3xl border ${cardBg} space-y-6`}>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <span className="text-xs font-semibold text-[#0071E3]">MODELO DE OPERACIÓN INSTITUCIONAL (MOOD)</span>
+                <h2 className="text-xl font-semibold mt-0.5">Plan de Trabajo Estratégico (36 Meses)</h2>
+                <p className={`text-xs ${subtleText}`}>Hoja de ruta ejecutiva, implementaciones clave y perfiles requeridos por fase para Grupo Cano</p>
+              </div>
+              <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#34C759]/15 text-[#34C759]">Estructura de Ejecución Activa</span>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {MOOD_ROADMAP.map((item, idx) => (
+                <div key={idx} className="p-5 rounded-2xl border border-black/5 dark:border-white/10 flex flex-col justify-between bg-black/[0.01] dark:bg-white/[0.02] gap-4">
+                  <div>
+                    <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-[#0071E3]/10 text-[#0071E3]">{item.phase}</span>
+                    <h3 className="text-base font-semibold mt-3">{item.title}</h3>
+                    <p className={`text-xs mt-1 ${subtleText}`}>{item.focus}</p>
+
+                    <div className="mt-4 space-y-2">
+                      <div className="text-[11px] uppercase font-semibold text-[#0071E3]">Implementaciones Core:</div>
+                      <ul className="space-y-1.5 text-xs">
+                        {item.implementations.map((impl, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#0071E3] mt-1.5 shrink-0" />
+                            <span>{impl}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-black/5 dark:border-white/5">
+                    <div className="text-[11px] uppercase font-semibold text-[#34C759] flex items-center gap-1.5 mb-2">
+                      <Users className="w-3.5 h-3.5" /> Perfiles Requeridos:
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {item.roles.map((role, rIdx) => (
+                        <span key={rIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/10 font-medium">
+                          {role}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         )}
