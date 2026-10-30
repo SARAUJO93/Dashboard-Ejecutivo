@@ -138,68 +138,104 @@ const INITIAL_LOTS = [
   }
 ];
 
-// DESGLOSE ACTIVIDAD POR ACTIVIDAD ULTRA DETALLADO (WBS & GANTT)
+// WBS ROBUSTO Y DESGLOSADO ACTIVIDAD POR ACTIVIDAD
 const DETAILED_ACTIVITIES = [
+  // FASE 1
   {
     id: 'ACT-01',
     phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
-    code: 'F1.01',
-    task: 'Diseño e implementación de la Torre de Control Base (EVM & SPI/CPI)',
-    duration: 'Meses 1 - 3',
+    code: 'F1.01.01',
+    task: 'Levantamiento de Requerimientos y Fuentes de Datos (EVM)',
+    duration: 'Mes 1',
     progress: 100,
-    resource: 'Chief of Staff (CoS) + Analista BI',
-    deliverable: 'Tableros interactivos Vercel / Supabase en producción',
+    resource: 'Chief of Staff (CoS) + Consultor Procesos',
+    deliverable: 'Matriz de requerimientos y diccionario de KPIs',
     status: 'Completado'
   },
   {
     id: 'ACT-02',
     phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
-    code: 'F1.02',
-    task: 'Auditoría y estandarización de flujos BIM (Tekla Structures / Advance Steel)',
-    duration: 'Meses 3 - 6',
-    progress: 75,
-    resource: 'Líder de Integración BIM + Ing. Detalle',
-    deliverable: 'Manual unificado de validación de listas de materiales (BOM)',
+    code: 'F1.01.02',
+    task: 'Configuración del Stack Tecnológico en la Nube (Vercel / Supabase)',
+    duration: 'Meses 1 - 2',
+    progress: 95,
+    resource: 'Full-Stack Developer',
+    deliverable: 'Base de datos relacional y ambiente de pruebas',
     status: 'En Proceso'
   },
   {
     id: 'ACT-03',
     phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
-    code: 'F1.03',
-    task: 'Instauración del Comité Directivo Semanal de PMO (Rhythm of Business)',
-    duration: 'Mes 2 en adelante',
+    code: 'F1.01.03',
+    task: 'Desarrollo de Tableros Ejecutivos y Vistas de Portafolio (MVP)',
+    duration: 'Meses 2 - 3',
     progress: 90,
-    resource: 'Dirección General + CoS + Gerentes de Planta',
-    deliverable: 'Minutas automatizadas y cadencia semanal de 45 min',
+    resource: 'Analista BI + Desarrollador Software',
+    deliverable: 'Torre de Control Vercel/Supabase en producción',
     status: 'En Proceso'
   },
   {
     id: 'ACT-04',
     phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
-    code: 'F1.04',
-    task: 'Mapeo financiero y separación de P&L por planta (Chihuahua vs Juárez)',
-    duration: 'Meses 6 - 9',
-    progress: 40,
-    resource: 'CFO + Gerentes de Planta (P&L)',
-    deliverable: 'Centros de beneficio independientes y control de OEE',
+    code: 'F1.02.01',
+    task: 'Mapeo del Flujo Actual de Ingeniería de Detalle (Tekla / Advance Steel)',
+    duration: 'Meses 3 - 4',
+    progress: 70,
+    resource: 'Líder de Integración BIM + Ing. Detalle',
+    deliverable: 'Value Stream Mapping de ingeniería a planta',
     status: 'En Proceso'
   },
   {
     id: 'ACT-05',
-    phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
-    code: 'F2.01',
-    task: 'Desarrollo e implantación de etiquetas y códigos QR por lote estructural',
-    duration: 'Meses 13 - 16',
-    progress: 15,
-    resource: 'Full-Stack Developer + Supervisores de Planta',
-    deliverable: 'App móvil interna de escaneo (Fabricación → Montaje)',
-    status: 'Planificado'
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.02.02',
+    task: 'Automatización y validación de Listas de Materiales (BOM vs CNC)',
+    duration: 'Meses 4 - 5',
+    progress: 50,
+    resource: 'Líder BIM + Supervisor CNC Chihuahua',
+    deliverable: 'Manual unificado de validación de BOM',
+    status: 'En Proceso'
   },
   {
     id: 'ACT-06',
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.03.01',
+    task: 'Instauración del Comité Directivo Semanal de PMO (Rhythm of Business)',
+    duration: 'Mes 2 en adelante',
+    progress: 85,
+    resource: 'Dirección General + CoS + Gerentes Planta',
+    deliverable: 'Plantilla de orden del día y cadencia semanal 45 min',
+    status: 'En Proceso'
+  },
+  {
+    id: 'ACT-07',
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.04.01',
+    task: 'Auditoría de Costos y Separación de P&L por Planta (Chih vs Juárez)',
+    duration: 'Meses 6 - 9',
+    progress: 25,
+    resource: 'CFO + Analista de Costos Industriales',
+    deliverable: 'Centros de beneficio independientes y tableros OEE',
+    status: 'Planificado'
+  },
+
+  // FASE 2
+  {
+    id: 'ACT-08',
     phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
-    code: 'F2.02',
-    task: 'Optimización de Supply Chain y contratos marco de acero (ASTM A992)',
+    code: 'F2.01.01',
+    task: 'Desarrollo de App móvil interna de escaneo QR por lote estructural',
+    duration: 'Meses 13 - 16',
+    progress: 10,
+    resource: 'Full-Stack Developer + Supervisores Planta',
+    deliverable: 'Trazabilidad Fabricación → Pintura → Tránsito → Montaje',
+    status: 'Planificado'
+  },
+  {
+    id: 'ACT-09',
+    phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
+    code: 'F2.02.01',
+    task: 'Contratos Marco y Supply Chain Predictivo para acero ASTM A992',
     duration: 'Meses 16 - 20',
     progress: 0,
     resource: 'Gerente de Supply Chain + Compras',
@@ -207,42 +243,44 @@ const DETAILED_ACTIVITIES = [
     status: 'Planificado'
   },
   {
-    id: 'ACT-07',
+    id: 'ACT-10',
     phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
-    code: 'F2.03',
-    task: 'Integración del Copiloto IA (Claude + Gemini) para validación de planos',
+    code: 'F2.03.01',
+    task: 'Integración de Copiloto IA (Claude + Gemini) para lectura de BOMs',
     duration: 'Meses 20 - 24',
     progress: 0,
     resource: 'Arquitecto de Software + CoS',
-    deliverable: 'Auditoría automática de BOMs y detección de scrap',
+    deliverable: 'Auditoría automática de planos y reducción de scrap',
     status: 'Planificado'
   },
+
+  // FASE 3
   {
-    id: 'ACT-08',
+    id: 'ACT-11',
     phase: 'Fase 3: Meses 25 - 36 (Gobierno Corporativo y Escalamiento)',
-    code: 'F3.01',
-    task: 'Formalización del Consejo de Administración Independiente',
+    code: 'F3.01.01',
+    task: 'Formalización de Consejo de Administración Independiente y CapEx',
     duration: 'Meses 25 - 28',
     progress: 0,
-    resource: 'Consejo Directivo + Accionistas + Consultores',
-    deliverable: 'Sesiones trimestrales de CapEx y auditoría externa',
+    resource: 'Consejo Directivo + Accionistas + CFO',
+    deliverable: 'Sesiones trimestrales de gobernanza y auditoría externa',
     status: 'Planificado'
   },
   {
-    id: 'ACT-09',
+    id: 'ACT-12',
     phase: 'Fase 3: Meses 25 - 36 (Gobierno Corporativo y Escalamiento)',
-    code: 'F3.02',
+    code: 'F3.02.01',
     task: 'Creación de la Universidad Corporativa Grupo Cano (AWS / AISC)',
     duration: 'Meses 28 - 33',
     progress: 0,
-    resource: 'Director de Capital Humano + Instructores Certificados',
-    deliverable: 'Academia interna de soldadura y operación CNC',
+    resource: 'Director Capital Humano + Instructores Certificados',
+    deliverable: 'Academia interna de soldadura y certificación CNC',
     status: 'Planificado'
   },
   {
-    id: 'ACT-10',
+    id: 'ACT-13',
     phase: 'Fase 3: Meses 25 - 36 (Gobierno Corporativo y Escalamiento)',
-    code: 'F3.03',
+    code: 'F3.03.01',
     task: 'Consolidación de planes de sucesión y manuales de gobernanza global',
     duration: 'Meses 34 - 36',
     progress: 0,
@@ -262,7 +300,6 @@ export default function App() {
   const [lots, setLots] = useState(INITIAL_LOTS);
   const [lotFilter, setLotFilter] = useState('Todos');
   const [showPitchModal, setShowPitchModal] = useState(false);
-  const [selectedPhaseModal, setSelectedPhaseModal] = useState(null);
   const [toast, setToast] = useState('Cano CoS OS • Sincronizado en tiempo real');
 
   // Simulador What-If
@@ -955,7 +992,7 @@ export default function App() {
               <div>
                 <span className="text-xs font-semibold text-[#0071E3]">MODELO DE OPERACIÓN INSTITUCIONAL (MOOD)</span>
                 <h2 className="text-xl font-semibold mt-0.5">Plan Actividad por Actividad & Diagrama Gantt (36 Meses)</h2>
-                <p className={`text-xs ${subtleText}`}>Desglose operativo completo con asignación lógica de recursos y cronograma crítico para Grupo Cano.</p>
+                <p className={`text-xs ${subtleText}`}>Desglose operativo robusto con asignación lógica de recursos y cronograma crítico para Grupo Cano.</p>
               </div>
               <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#34C759]/15 text-[#34C759] flex items-center gap-1.5">
                 <CheckSquare className="w-4 h-4" /> Ejecución de WBS Activa
@@ -965,14 +1002,14 @@ export default function App() {
             {/* TABLA DETALLADA ACTIVIDAD POR ACTIVIDAD */}
             <div className="space-y-3">
               <h3 className="text-sm font-semibold text-[#0071E3] uppercase tracking-wider flex items-center gap-2">
-                <Calendar className="w-4 h-4" /> Desglose Actividad por Actividad & Recursos Lógicos
+                <Calendar className="w-4 h-4" /> Desglose Actividad por Actividad & Recursos Lógicos (WBS Robusto)
               </h3>
               
               <div className="overflow-x-auto rounded-2xl border border-black/10 dark:border-white/10">
                 <table className="w-full text-left border-collapse tabular-nums">
                   <thead>
                     <tr className={`border-b text-[11px] uppercase ${subtleText} bg-black/[0.02] dark:bg-white/[0.02]`}>
-                      <th className="p-3 font-medium">Código</th>
+                      <th className="p-3 font-medium">Código WBS</th>
                       <th className="p-3 font-medium">Fase / Actividad Detallada</th>
                       <th className="p-3 font-medium">Duración WBS</th>
                       <th className="p-3 font-medium">Recurso Asignado (Lógico)</th>
