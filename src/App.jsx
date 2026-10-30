@@ -19,7 +19,9 @@ import {
   Compass,
   Users,
   Target,
-  FileText
+  FileText,
+  Calendar,
+  CheckSquare
 } from 'lucide-react';
 
 const INITIAL_PROJECTS = [
@@ -136,55 +138,117 @@ const INITIAL_LOTS = [
   }
 ];
 
-const DETAILED_MOOD_ROADMAP = [
+// DESGLOSE ACTIVIDAD POR ACTIVIDAD ULTRA DETALLADO (WBS & GANTT)
+const DETAILED_ACTIVITIES = [
   {
-    phase: 'Fase 1: Meses 1 - 12',
-    title: 'Visibilidad, Estandarización y Datos',
-    focus: 'Detener fuga de margen y unificar datos operativos sin fricción en planta.',
-    kpiTarget: 'Estabilizar EBITDA, lograr OTIF ≥ 90% y visibilidad 100% de SPI/CPI en tiempo real.',
-    implementations: [
-      'Despliegue de Torre de Control Base (EVM, SPI/CPI, OTIF, COPQ).',
-      'Sincronización estricta de flujos BIM (Tekla Structures / Advance Steel) con piso de taller.',
-      'Instauración del Comité Directivo Semanal de PMO (45 min basados estrictamente en datos).'
-    ],
-    deliverables: [
-      'Tablero ejecutivo en tiempo real operando en Vercel/Supabase.',
-      'Manual unificado de validación de listas de materiales (BOM).',
-      'Definición de P&L independiente para Planta Chihuahua y Planta Juárez.'
-    ],
-    roles: ['Chief of Staff (CoS)', 'Analista de Datos / BI', 'Líder de Integración BIM', 'Gerentes de Planta (P&L)']
+    id: 'ACT-01',
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.01',
+    task: 'Diseño e implementación de la Torre de Control Base (EVM & SPI/CPI)',
+    duration: 'Meses 1 - 3',
+    progress: 100,
+    resource: 'Chief of Staff (CoS) + Analista BI',
+    deliverable: 'Tableros interactivos Vercel / Supabase en producción',
+    status: 'Completado'
   },
   {
-    phase: 'Fase 2: Meses 13 - 24',
-    title: 'Automatización y Trazabilidad Digital',
-    focus: 'Conectar el taller con la obra en tiempo real y reducir drásticamente el Costo de No Calidad (COPQ).',
-    implementations: [
-      'Trazabilidad QR de Extremo a Extremo (Fabricación → Pintura SSPC → Tránsito → Montaje).',
-      'Optimización de Supply Chain: Compras anticipadas de acero (ASTM A992) ligadas a cartera a 6 meses.',
-      'Piloto de IA Ejecutiva (Claude + Gemini) para lectura automatizada de BOMs y cruce normativo (AWS/AISC).'
-    ],
-    deliverables: [
-      'App interna de escaneo QR para residentes de obra y supervisores de embarque.',
-      'Reducción del 45% en costos por retrabajos en campo.',
-      'Integración automatizada ERP-BOM sin fricción manual.'
-    ],
-    roles: ['Full-Stack Developer (Sistemas)', 'Gerente de Supply Chain', 'Ingenieros QA/QC (Normas AWS/AISC)', 'Reclutador Industrial']
+    id: 'ACT-02',
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.02',
+    task: 'Auditoría y estandarización de flujos BIM (Tekla Structures / Advance Steel)',
+    duration: 'Meses 3 - 6',
+    progress: 75,
+    resource: 'Líder de Integración BIM + Ing. Detalle',
+    deliverable: 'Manual unificado de validación de listas de materiales (BOM)',
+    status: 'En Proceso'
   },
   {
-    phase: 'Fase 3: Meses 25 - 36',
-    title: 'Gobierno Corporativo y Escalamiento',
-    focus: 'Operar con autonomía institucionalizada y estructura lista para expansión en Norteamérica.',
-    implementations: [
-      'Formalización de Consejo de Administración Independiente (sesiones trimestrales de CapEx).',
-      'Creación de la Universidad Corporativa Grupo Cano (certificaciones internas AWS/AISC).',
-      'Planes de sucesión directiva y estandarización total de manuales de gobernanza.'
-    ],
-    deliverables: [
-      'Gobierno corporativo auditado por externos.',
-      'Academia técnica interna operando con cero dependencia de perfiles clave.',
-      'Capacidad instalada escalada para licitaciones internacionales de mayor envergadura.'
-    ],
-    roles: ['Consejeros Externos (Board)', 'Director de Administración y Finanzas (CFO)', 'Director de Universidad Corporativa']
+    id: 'ACT-03',
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.03',
+    task: 'Instauración del Comité Directivo Semanal de PMO (Rhythm of Business)',
+    duration: 'Mes 2 en adelante',
+    progress: 90,
+    resource: 'Dirección General + CoS + Gerentes de Planta',
+    deliverable: 'Minutas automatizadas y cadencia semanal de 45 min',
+    status: 'En Proceso'
+  },
+  {
+    id: 'ACT-04',
+    phase: 'Fase 1: Meses 1 - 12 (Visibilidad y Datos)',
+    code: 'F1.04',
+    task: 'Mapeo financiero y separación de P&L por planta (Chihuahua vs Juárez)',
+    duration: 'Meses 6 - 9',
+    progress: 40,
+    resource: 'CFO + Gerentes de Planta (P&L)',
+    deliverable: 'Centros de beneficio independientes y control de OEE',
+    status: 'En Proceso'
+  },
+  {
+    id: 'ACT-05',
+    phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
+    code: 'F2.01',
+    task: 'Desarrollo e implantación de etiquetas y códigos QR por lote estructural',
+    duration: 'Meses 13 - 16',
+    progress: 15,
+    resource: 'Full-Stack Developer + Supervisores de Planta',
+    deliverable: 'App móvil interna de escaneo (Fabricación → Montaje)',
+    status: 'Planificado'
+  },
+  {
+    id: 'ACT-06',
+    phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
+    code: 'F2.02',
+    task: 'Optimización de Supply Chain y contratos marco de acero (ASTM A992)',
+    duration: 'Meses 16 - 20',
+    progress: 0,
+    resource: 'Gerente de Supply Chain + Compras',
+    deliverable: 'Mitigación de volatilidad de precios a 6 meses',
+    status: 'Planificado'
+  },
+  {
+    id: 'ACT-07',
+    phase: 'Fase 2: Meses 13 - 24 (Automatización y Trazabilidad)',
+    code: 'F2.03',
+    task: 'Integración del Copiloto IA (Claude + Gemini) para validación de planos',
+    duration: 'Meses 20 - 24',
+    progress: 0,
+    resource: 'Arquitecto de Software + CoS',
+    deliverable: 'Auditoría automática de BOMs y detección de scrap',
+    status: 'Planificado'
+  },
+  {
+    id: 'ACT-08',
+    phase: 'Fase 3: Meses 25 - 36 (Gobierno Corporativo y Escalamiento)',
+    code: 'F3.01',
+    task: 'Formalización del Consejo de Administración Independiente',
+    duration: 'Meses 25 - 28',
+    progress: 0,
+    resource: 'Consejo Directivo + Accionistas + Consultores',
+    deliverable: 'Sesiones trimestrales de CapEx y auditoría externa',
+    status: 'Planificado'
+  },
+  {
+    id: 'ACT-09',
+    phase: 'Fase 3: Meses 25 - 36 (Gobierno Corporativo y Escalamiento)',
+    code: 'F3.02',
+    task: 'Creación de la Universidad Corporativa Grupo Cano (AWS / AISC)',
+    duration: 'Meses 28 - 33',
+    progress: 0,
+    resource: 'Director de Capital Humano + Instructores Certificados',
+    deliverable: 'Academia interna de soldadura y operación CNC',
+    status: 'Planificado'
+  },
+  {
+    id: 'ACT-10',
+    phase: 'Fase 3: Meses 25 - 36 (Gobierno Corporativo y Escalamiento)',
+    code: 'F3.03',
+    task: 'Consolidación de planes de sucesión y manuales de gobernanza global',
+    duration: 'Meses 34 - 36',
+    progress: 0,
+    resource: 'CoS + Consultoría Externa',
+    deliverable: 'Organización 100% institucionalizada y autónoma',
+    status: 'Planificado'
   }
 ];
 
@@ -308,14 +372,14 @@ export default function App() {
 
   return (
     <div
-      className={`min-h-screen transition-colors duration-300 ${bgMain} pb-16`}
+      className={`min-h-screen transition-colors duration-500 ${bgMain} pb-16`}
       style={{
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif'
       }}
     >
       {/* Dynamic Island Notification */}
-      <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+      <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 pointer-events-none animate-bounce">
         <div className="bg-black text-white px-4 py-1.5 rounded-full shadow-lg border border-white/15 flex items-center gap-2.5 text-xs font-medium tracking-tight">
           <span className="w-2 h-2 rounded-full bg-[#34C759] animate-pulse" />
           <span>{toast}</span>
@@ -324,13 +388,13 @@ export default function App() {
 
       {/* Top Glass Header */}
       <header
-        className={`sticky top-0 z-40 backdrop-blur-xl border-b ${
+        className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-300 ${
           darkMode ? 'bg-black/75 border-white/10' : 'bg-white/75 border-black/[0.06]'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 pt-11 pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-[#0071E3] flex items-center justify-center text-white shadow-sm">
+            <div className="w-11 h-11 rounded-2xl bg-[#0071E3] flex items-center justify-center text-white shadow-sm transform hover:scale-105 transition">
               <Building2 className="w-6 h-6" />
             </div>
             <div>
@@ -351,14 +415,14 @@ export default function App() {
           <div className="flex items-center gap-2.5">
             <button
               onClick={() => setShowPitchModal(true)}
-              className="px-4 py-2 rounded-full text-xs font-medium bg-[#0071E3] text-white hover:bg-[#0077ED] transition shadow-sm flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-full text-xs font-medium bg-[#0071E3] text-white hover:bg-[#0077ED] transition transform hover:scale-105 shadow-sm flex items-center gap-1.5 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5" />
               Guion Entrevista CoS (5 min)
             </button>
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`p-2.5 rounded-full border transition cursor-pointer ${
+              className={`p-2.5 rounded-full border transition transform hover:rotate-45 cursor-pointer ${
                 darkMode
                   ? 'bg-[#1C1C1E] border-white/15 text-amber-400'
                   : 'bg-white border-black/10 text-[#1D1D1F]'
@@ -382,7 +446,7 @@ export default function App() {
               { id: 'bim', label: '2. Ingeniería BIM & Plantas', icon: Layers },
               { id: 'qr', label: '3. Trazabilidad QR & Obra', icon: QrCode },
               { id: 'gov', label: '4. Gobernanza, IA & What-If', icon: Sliders },
-              { id: 'mood', label: '5. Plan MoOD & Roadmap 36m', icon: Compass }
+              { id: 'mood', label: '5. Plan MoOD & Roadmap & Gantt', icon: Compass }
             ].map((tab) => {
               const Icon = tab.icon;
               const active = activeTab === tab.id;
@@ -393,8 +457,8 @@ export default function App() {
                   className={`px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
                     active
                       ? darkMode
-                        ? 'bg-[#2C2C2E] text-white shadow-sm'
-                        : 'bg-white text-[#1D1D1F] shadow-sm'
+                        ? 'bg-[#2C2C2E] text-white shadow-md scale-100'
+                        : 'bg-white text-[#1D1D1F] shadow-md scale-100'
                       : subtleText
                   }`}
                 >
@@ -411,7 +475,7 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-6 pt-6 space-y-6">
         {/* Top KPI Bento Row */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className={`p-5 rounded-3xl border backdrop-blur-md ${cardBg}`}>
+          <div className={`p-5 rounded-3xl border backdrop-blur-md transition transform hover:-translate-y-1 ${cardBg}`}>
             <div className="flex items-center justify-between">
               <span className={`text-xs font-medium ${subtleText}`}>
                 Capacidad Activa (2 Plantas)
@@ -427,7 +491,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className={`p-5 rounded-3xl border backdrop-blur-md ${cardBg}`}>
+          <div className={`p-5 rounded-3xl border backdrop-blur-md transition transform hover:-translate-y-1 ${cardBg}`}>
             <div className="flex items-center justify-between">
               <span className={`text-xs font-medium ${subtleText}`}>
                 Margen Bruto Real vs. Plan
@@ -447,7 +511,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className={`p-5 rounded-3xl border backdrop-blur-md ${cardBg}`}>
+          <div className={`p-5 rounded-3xl border backdrop-blur-md transition transform hover:-translate-y-1 ${cardBg}`}>
             <div className="flex items-center justify-between">
               <span className={`text-xs font-medium ${subtleText}`}>
                 OTIF Embarques a Obra
@@ -465,7 +529,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className={`p-5 rounded-3xl border backdrop-blur-md ${cardBg}`}>
+          <div className={`p-5 rounded-3xl border backdrop-blur-md transition transform hover:-translate-y-1 ${cardBg}`}>
             <div className="flex items-center justify-between">
               <span className={`text-xs font-medium ${subtleText}`}>
                 Costo de Retrabajo (COPQ)
@@ -486,7 +550,7 @@ export default function App() {
 
         {/* VIEW 1: DIRECCIÓN GENERAL & EVM */}
         {activeTab === 'evm' && (
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <section className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
             <div className={`lg:col-span-2 p-6 rounded-3xl border ${cardBg}`}>
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -610,7 +674,7 @@ export default function App() {
 
               <button
                 onClick={() => approveAction(selectedProject.id)}
-                className="mt-6 w-full py-3 rounded-2xl bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
+                className="mt-6 w-full py-3 rounded-2xl bg-[#0071E3] hover:bg-[#0077ED] text-white text-xs font-semibold transition transform hover:scale-[1.02] flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 Ejecutar Instrucción CoS y Actualizar Tablero
@@ -621,7 +685,7 @@ export default function App() {
 
         {/* VIEW 2: INGENIERÍA BIM & PLANTAS */}
         {activeTab === 'bim' && (
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
             <div className={`p-6 rounded-3xl border ${cardBg}`}>
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -688,7 +752,7 @@ export default function App() {
 
         {/* VIEW 3: TRAZABILIDAD QR & OBRA */}
         {activeTab === 'qr' && (
-          <section className={`p-6 rounded-3xl border ${cardBg}`}>
+          <section className={`p-6 rounded-3xl border ${cardBg} animate-fadeIn`}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
               <div>
                 <h2 className="text-base font-semibold">
@@ -705,7 +769,7 @@ export default function App() {
                     onClick={() => setLotFilter(st)}
                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer ${
                       lotFilter === st
-                        ? 'bg-[#0071E3] text-white'
+                        ? 'bg-[#0071E3] text-white shadow'
                         : 'bg-black/[0.04] dark:bg-white/[0.06]'
                     }`}
                   >
@@ -719,7 +783,7 @@ export default function App() {
               {filteredLots.map((lot) => (
                 <div
                   key={lot.id}
-                  className="p-4 rounded-2xl border border-black/5 dark:border-white/10 flex flex-col justify-between gap-3"
+                  className="p-4 rounded-2xl border border-black/5 dark:border-white/10 flex flex-col justify-between gap-3 hover:border-[#0071E3] transition"
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -740,7 +804,7 @@ export default function App() {
                     </span>
                     <button
                       onClick={() => advanceLotStage(lot.id)}
-                      className="px-3 py-1.5 rounded-xl bg-[#0071E3] text-white font-medium hover:bg-[#0077ED] transition flex items-center gap-1.5 cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-[#0071E3] text-white font-medium hover:bg-[#0077ED] transition transform hover:scale-105 flex items-center gap-1.5 cursor-pointer shadow-sm"
                     >
                       <QrCode className="w-3.5 h-3.5" />
                       Simular Escaneo QR ({lot.scans})
@@ -754,7 +818,7 @@ export default function App() {
 
         {/* VIEW 4: GOBERNANZA, COPILOTO IA & SIMULADOR WHAT-IF */}
         {activeTab === 'gov' && (
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fadeIn">
             {/* Simulador Financiero What-If */}
             <div className={`p-6 rounded-3xl border ${cardBg}`}>
               <span className="text-xs font-semibold text-[#0071E3]">
@@ -776,7 +840,7 @@ export default function App() {
                     max="15"
                     value={steelDelta}
                     onChange={(e) => setSteelDelta(Number(e.target.value))}
-                    className="w-full accent-[#0071E3]"
+                    className="w-full accent-[#0071E3] cursor-pointer"
                   />
                 </div>
 
@@ -791,7 +855,7 @@ export default function App() {
                     max="20"
                     value={delayDays}
                     onChange={(e) => setDelayDays(Number(e.target.value))}
-                    className="w-full accent-[#0071E3]"
+                    className="w-full accent-[#0071E3] cursor-pointer"
                   />
                 </div>
 
@@ -806,7 +870,7 @@ export default function App() {
                     max="80"
                     value={reworkCut}
                     onChange={(e) => setReworkCut(Number(e.target.value))}
-                    className="w-full accent-[#34C759]"
+                    className="w-full accent-[#34C759] cursor-pointer"
                   />
                 </div>
               </div>
@@ -853,7 +917,7 @@ export default function App() {
                     onClick={() => runCopilotAnalysis('claude')}
                     className={`px-3.5 py-2 rounded-xl text-xs font-medium transition cursor-pointer ${
                       aiEngine === 'claude'
-                        ? 'bg-[#0071E3] text-white'
+                        ? 'bg-[#0071E3] text-white shadow'
                         : 'bg-black/[0.05] dark:bg-white/[0.08]'
                     }`}
                   >
@@ -863,7 +927,7 @@ export default function App() {
                     onClick={() => runCopilotAnalysis('gemini')}
                     className={`px-3.5 py-2 rounded-xl text-xs font-medium transition cursor-pointer ${
                       aiEngine === 'gemini'
-                        ? 'bg-[#0071E3] text-white'
+                        ? 'bg-[#0071E3] text-white shadow'
                         : 'bg-black/[0.05] dark:bg-white/[0.08]'
                     }`}
                   >
@@ -884,138 +948,123 @@ export default function App() {
           </section>
         )}
 
-        {/* VIEW 5: PLAN MOOD & ROADMAP (ENRIQUECIDO CON PROFUNDIDAD) */}
+        {/* VIEW 5: PLAN MOOD & ROADMAP & GANTT DETALLADO (ANIMADO) */}
         {activeTab === 'mood' && (
-          <section className={`p-6 rounded-3xl border ${cardBg} space-y-6`}>
+          <section className={`p-6 rounded-3xl border ${cardBg} space-y-8 animate-fadeIn`}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <span className="text-xs font-semibold text-[#0071E3]">MODELO DE OPERACIÓN INSTITUCIONAL (MOOD)</span>
-                <h2 className="text-xl font-semibold mt-0.5">Plan de Trabajo Estratégico & Detalle por Fase (36 Meses)</h2>
-                <p className={`text-xs ${subtleText}`}>Haz clic en cualquier tarjeta de fase para desplegar el desglose profundo de entregables y KPIs.</p>
+                <h2 className="text-xl font-semibold mt-0.5">Plan Actividad por Actividad & Diagrama Gantt (36 Meses)</h2>
+                <p className={`text-xs ${subtleText}`}>Desglose operativo completo con asignación lógica de recursos y cronograma crítico para Grupo Cano.</p>
               </div>
-              <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#34C759]/15 text-[#34C759]">Estructura de Ejecución Activa</span>
+              <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#34C759]/15 text-[#34C759] flex items-center gap-1.5">
+                <CheckSquare className="w-4 h-4" /> Ejecución de WBS Activa
+              </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {DETAILED_MOOD_ROADMAP.map((item, idx) => (
-                <div 
-                  key={idx} 
-                  onClick={() => setSelectedPhaseModal(item)}
-                  className="p-5 rounded-2xl border border-black/5 dark:border-white/10 flex flex-col justify-between bg-black/[0.01] dark:bg-white/[0.02] gap-4 hover:border-[#0071E3] transition cursor-pointer group"
-                >
-                  <div>
-                    <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-[#0071E3]/10 text-[#0071E3]">{item.phase}</span>
-                    <h3 className="text-base font-semibold mt-3 group-hover:text-[#0071E3] transition">{item.title}</h3>
-                    <p className={`text-xs mt-1 ${subtleText}`}>{item.focus}</p>
+            {/* TABLA DETALLADA ACTIVIDAD POR ACTIVIDAD */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-[#0071E3] uppercase tracking-wider flex items-center gap-2">
+                <Calendar className="w-4 h-4" /> Desglose Actividad por Actividad & Recursos Lógicos
+              </h3>
+              
+              <div className="overflow-x-auto rounded-2xl border border-black/10 dark:border-white/10">
+                <table className="w-full text-left border-collapse tabular-nums">
+                  <thead>
+                    <tr className={`border-b text-[11px] uppercase ${subtleText} bg-black/[0.02] dark:bg-white/[0.02]`}>
+                      <th className="p-3 font-medium">Código</th>
+                      <th className="p-3 font-medium">Fase / Actividad Detallada</th>
+                      <th className="p-3 font-medium">Duración WBS</th>
+                      <th className="p-3 font-medium">Recurso Asignado (Lógico)</th>
+                      <th className="p-3 font-medium">Entregable Tangible</th>
+                      <th className="p-3 font-medium">Avance</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-black/5 dark:divide-white/5 text-xs">
+                    {DETAILED_ACTIVITIES.map((act) => (
+                      <tr key={act.id} className="hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition">
+                        <td className="p-3 font-mono font-semibold text-[#0071E3]">{act.code}</td>
+                        <td className="p-3">
+                          <div className="font-semibold">{act.task}</div>
+                          <div className={`text-[10px] ${subtleText}`}>{act.phase}</div>
+                        </td>
+                        <td className="p-3 whitespace-nowrap font-medium">{act.duration}</td>
+                        <td className="p-3 text-[#34C759] font-medium">{act.resource}</td>
+                        <td className={`p-3 ${subtleText}`}>{act.deliverable}</td>
+                        <td className="p-3 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <div className="w-16 h-2 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden">
+                              <div className="h-full bg-[#0071E3] transition-all duration-1000" style={{ width: `${act.progress}%` }} />
+                            </div>
+                            <span className="text-[11px] font-semibold">{act.progress}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-                    <div className="mt-4 space-y-2">
-                      <div className="text-[11px] uppercase font-semibold text-[#0071E3] flex items-center gap-1">
-                        <Target className="w-3.5 h-3.5" /> KPI Objetivo de Fase:
-                      </div>
-                      <p className="text-xs font-medium p-2.5 rounded-xl bg-[#0071E3]/5 border border-[#0071E3]/10">
-                        {item.kpiTarget}
-                      </p>
-                    </div>
+            {/* DIAGRAMA DE GANTT VISUAL ANIMADO */}
+            <div className="space-y-3 pt-4 border-t border-black/5 dark:border-white/10">
+              <h3 className="text-sm font-semibold text-[#0071E3] uppercase tracking-wider flex items-center gap-2">
+                <Compass className="w-4 h-4" /> Diagrama de Gantt Macro (Horizonte 36 Meses)
+              </h3>
+              
+              <div className="p-5 rounded-2xl border border-black/10 dark:border-white/10 bg-black/[0.01] dark:bg-white/[0.02] space-y-4">
+                <div className="grid grid-cols-4 text-[11px] font-semibold uppercase text-center pb-2 border-b border-black/5 dark:border-white/5">
+                  <span className="text-left">Fase WBS</span>
+                  <span>Año 1 (Visibilidad)</span>
+                  <span>Año 2 (Automatización)</span>
+                  <span>Año 3 (Gobierno)</span>
+                </div>
 
-                    <div className="mt-4 space-y-2">
-                      <div className="text-[11px] uppercase font-semibold text-[#0071E3]">Implementaciones Core:</div>
-                      <ul className="space-y-1.5 text-xs">
-                        {item.implementations.map((impl, i) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#0071E3] mt-1.5 shrink-0" />
-                            <span>{impl}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  <div className="pt-3 border-t border-black/5 dark:border-white/5 space-y-3">
-                    <div>
-                      <div className="text-[11px] uppercase font-semibold text-[#34C759] flex items-center gap-1.5 mb-1.5">
-                        <Users className="w-3.5 h-3.5" /> Perfiles Requeridos:
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {item.roles.map((role, rIdx) => (
-                          <span key={rIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/10 font-medium">
-                            {role}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="text-right text-[11px] text-[#0071E3] font-semibold">
-                      Ver Entregables y Detalle Completo →
+                {/* Barra Fase 1 */}
+                <div className="grid grid-cols-4 items-center text-xs gap-2">
+                  <span className="font-semibold">Fase 1: Visibilidad & Datos</span>
+                  <div className="col-span-3 bg-black/5 dark:bg-white/5 rounded-full h-7 p-1 relative flex items-center">
+                    <div className="absolute h-5 rounded-full bg-gradient-to-r from-[#0071E3] to-[#34C759] shadow transition-all duration-1000 flex items-center px-3 text-white text-[10px] font-semibold" style={{ width: '33%', left: '0%' }}>
+                      Meses 1 - 12 (Torre de Control + BIM)
                     </div>
                   </div>
                 </div>
-              ))}
+
+                {/* Barra Fase 2 */}
+                <div className="grid grid-cols-4 items-center text-xs gap-2">
+                  <span className="font-semibold">Fase 2: Trazabilidad & IA</span>
+                  <div className="col-span-3 bg-black/5 dark:bg-white/5 rounded-full h-7 p-1 relative flex items-center">
+                    <div className="absolute h-5 rounded-full bg-gradient-to-r from-[#0071E3] to-[#FF9500] shadow transition-all duration-1000 flex items-center px-3 text-white text-[10px] font-semibold" style={{ width: '33%', left: '33%' }}>
+                      Meses 13 - 24 (App QR + Copiloto IA)
+                    </div>
+                  </div>
+                </div>
+
+                {/* Barra Fase 3 */}
+                <div className="grid grid-cols-4 items-center text-xs gap-2">
+                  <span className="font-semibold">Fase 3: Gobierno & Escala</span>
+                  <div className="col-span-3 bg-black/5 dark:bg-white/5 rounded-full h-7 p-1 relative flex items-center">
+                    <div className="absolute h-5 rounded-full bg-gradient-to-r from-[#0071E3] to-[#AF52DE] shadow transition-all duration-1000 flex items-center px-3 text-white text-[10px] font-semibold" style={{ width: '33%', left: '66%' }}>
+                      Meses 25 - 36 (Consejo + Univ. Corporativa)
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-4 pt-2 text-[11px] text-[#86868B]">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#34C759]" /> En curso / Hito</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#0071E3]" /> En desarrollo WBS</span>
+                </div>
+              </div>
             </div>
+
           </section>
         )}
       </main>
 
-      {/* Modal de Detalle Profundo por Fase */}
-      {selectedPhaseModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className={`max-w-2xl w-full p-6 rounded-3xl border shadow-2xl ${cardBg} space-y-5`}>
-            <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
-              <div>
-                <span className="text-xs font-mono text-[#0071E3] font-semibold">{selectedPhaseModal.phase}</span>
-                <h3 className="text-lg font-semibold">{selectedPhaseModal.title}</h3>
-              </div>
-              <button onClick={() => setSelectedPhaseModal(null)} className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer">
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="space-y-4 text-xs leading-relaxed">
-              <div className="p-3.5 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04]">
-                <strong className="text-[#0071E3] uppercase text-[11px] block mb-1">Enfoque Estratégico:</strong>
-                {selectedPhaseModal.focus}
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-[#34C759]/10 border border-[#34C759]/20">
-                <strong className="text-[#34C759] uppercase text-[11px] block mb-1">Meta y KPI Crítico de Éxito:</strong>
-                {selectedPhaseModal.kpiTarget}
-              </div>
-
-              <div>
-                <strong className="uppercase text-[11px] text-[#0071E3] block mb-2">Entregables Tangibles Esperados:</strong>
-                <ul className="space-y-2">
-                  {selectedPhaseModal.deliverables.map((deliv, dIdx) => (
-                    <li key={dIdx} className="flex items-start gap-2 p-2 rounded-xl bg-black/[0.02] dark:bg-white/[0.02]">
-                      <FileText className="w-4 h-4 text-[#0071E3] shrink-0 mt-0.5" />
-                      <span>{deliv}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <strong className="uppercase text-[11px] text-[#34C759] block mb-2">Talento y Perfiles Asignados:</strong>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedPhaseModal.roles.map((rol, rIdx) => (
-                    <span key={rIdx} className="px-2.5 py-1 rounded-lg bg-[#0071E3]/10 text-[#0071E3] font-medium text-xs">
-                      {rol}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-black/10 dark:border-white/10 text-right">
-              <button onClick={() => setSelectedPhaseModal(null)} className="px-5 py-2.5 rounded-xl bg-[#0071E3] text-white text-xs font-semibold cursor-pointer">
-                Cerrar Detalle
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Modal Pitch de Entrevista */}
       {showPitchModal && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className={`max-w-xl w-full p-6 rounded-3xl border shadow-2xl ${cardBg}`}>
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+          <div className={`max-w-xl w-full p-6 rounded-3xl border shadow-2xl ${cardBg} transform transition-all scale-100`}>
             <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
               <h3 className="text-base font-semibold">
                 Guion Ejecutivo para tu Entrevista (Chief of Staff)
@@ -1035,7 +1084,7 @@ export default function App() {
                 <strong>2. Conexión BIM → Piso → Obra:</strong> "Conectar las salidas de <em>Tekla Structures y Advance Steel</em> con trazabilidad QR por lote para eliminar el retrabajo en sitio y asegurar que nunca enviemos acero a una obra cuyas terracerías no están listas."
               </p>
               <p>
-                <strong>3. Cadencia de Gobernanza:</strong> "Liderar un comité semanal de 45 minutos basado en datos en vivo (SPI, CPI, OTIF y margen real por tonelada) para que la Dirección General se enfoque en crecer el negocio y no en apagar fuegos operativos."
+                <strong>3. WBS Actividad por Actividad:</strong> "Tenemos un plan estructurado en 3 fases de 36 meses, con hitos claros, asignación estricta de recursos (desde desarrolladores y analistas BI hasta soldadores certificados AWS) y tableros en tiempo real."
               </p>
             </div>
           </div>
