@@ -17,7 +17,9 @@ import {
   X,
   Gauge,
   Compass,
-  Users
+  Users,
+  Target,
+  FileText
 } from 'lucide-react';
 
 const INITIAL_PROJECTS = [
@@ -134,37 +136,53 @@ const INITIAL_LOTS = [
   }
 ];
 
-const MOOD_ROADMAP = [
+const DETAILED_MOOD_ROADMAP = [
   {
     phase: 'Fase 1: Meses 1 - 12',
     title: 'Visibilidad, Estandarización y Datos',
     focus: 'Detener fuga de margen y unificar datos operativos sin fricción en planta.',
+    kpiTarget: 'Estabilizar EBITDA, lograr OTIF ≥ 90% y visibilidad 100% de SPI/CPI en tiempo real.',
     implementations: [
-      'Despliegue de Torre de Control Base (EVM, SPI/CPI, OTIF).',
-      'Sincronización de flujos BIM (Tekla / Advance Steel) a piso de taller.',
-      'Instauración del Comité Directivo Semanal de PMO basado en datos.'
+      'Despliegue de Torre de Control Base (EVM, SPI/CPI, OTIF, COPQ).',
+      'Sincronización estricta de flujos BIM (Tekla Structures / Advance Steel) con piso de taller.',
+      'Instauración del Comité Directivo Semanal de PMO (45 min basados estrictamente en datos).'
+    ],
+    deliverables: [
+      'Tablero ejecutivo en tiempo real operando en Vercel/Supabase.',
+      'Manual unificado de validación de listas de materiales (BOM).',
+      'Definición de P&L independiente para Planta Chihuahua y Planta Juárez.'
     ],
     roles: ['Chief of Staff (CoS)', 'Analista de Datos / BI', 'Líder de Integración BIM', 'Gerentes de Planta (P&L)']
   },
   {
     phase: 'Fase 2: Meses 13 - 24',
     title: 'Automatización y Trazabilidad Digital',
-    focus: 'Conectar el taller con la obra en tiempo real y reducir drásticamente el COPQ.',
+    focus: 'Conectar el taller con la obra en tiempo real y reducir drásticamente el Costo de No Calidad (COPQ).',
     implementations: [
-      'Trazabilidad QR de Extremo a Extremo por lote estructural.',
-      'Optimización de Supply Chain y compras anticipadas (ASTM A992).',
-      'Piloto de IA Ejecutiva (Claude + Gemini) para lectura de BOMs y planos.'
+      'Trazabilidad QR de Extremo a Extremo (Fabricación → Pintura SSPC → Tránsito → Montaje).',
+      'Optimización de Supply Chain: Compras anticipadas de acero (ASTM A992) ligadas a cartera a 6 meses.',
+      'Piloto de IA Ejecutiva (Claude + Gemini) para lectura automatizada de BOMs y cruce normativo (AWS/AISC).'
+    ],
+    deliverables: [
+      'App interna de escaneo QR para residentes de obra y supervisores de embarque.',
+      'Reducción del 45% en costos por retrabajos en campo.',
+      'Integración automatizada ERP-BOM sin fricción manual.'
     ],
     roles: ['Full-Stack Developer (Sistemas)', 'Gerente de Supply Chain', 'Ingenieros QA/QC (Normas AWS/AISC)', 'Reclutador Industrial']
   },
   {
     phase: 'Fase 3: Meses 25 - 36',
     title: 'Gobierno Corporativo y Escalamiento',
-    focus: 'Operar con autonomía institucionalizada y estructura lista para Norteamérica.',
+    focus: 'Operar con autonomía institucionalizada y estructura lista para expansión en Norteamérica.',
     implementations: [
-      'Formalización de Consejo de Administración Independiente.',
-      'Creación de Universidad Corporativa (Certificaciones AWS/AISC).',
-      'Planes de sucesión directiva y estandarización total de manuales.'
+      'Formalización de Consejo de Administración Independiente (sesiones trimestrales de CapEx).',
+      'Creación de la Universidad Corporativa Grupo Cano (certificaciones internas AWS/AISC).',
+      'Planes de sucesión directiva y estandarización total de manuales de gobernanza.'
+    ],
+    deliverables: [
+      'Gobierno corporativo auditado por externos.',
+      'Academia técnica interna operando con cero dependencia de perfiles clave.',
+      'Capacidad instalada escalada para licitaciones internacionales de mayor envergadura.'
     ],
     roles: ['Consejeros Externos (Board)', 'Director de Administración y Finanzas (CFO)', 'Director de Universidad Corporativa']
   }
@@ -180,6 +198,7 @@ export default function App() {
   const [lots, setLots] = useState(INITIAL_LOTS);
   const [lotFilter, setLotFilter] = useState('Todos');
   const [showPitchModal, setShowPitchModal] = useState(false);
+  const [selectedPhaseModal, setSelectedPhaseModal] = useState(null);
   const [toast, setToast] = useState('Cano CoS OS • Sincronizado en tiempo real');
 
   // Simulador What-If
@@ -865,25 +884,38 @@ export default function App() {
           </section>
         )}
 
-        {/* VIEW 5: PLAN MOOD & ROADMAP (NUEVO) */}
+        {/* VIEW 5: PLAN MOOD & ROADMAP (ENRIQUECIDO CON PROFUNDIDAD) */}
         {activeTab === 'mood' && (
           <section className={`p-6 rounded-3xl border ${cardBg} space-y-6`}>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <span className="text-xs font-semibold text-[#0071E3]">MODELO DE OPERACIÓN INSTITUCIONAL (MOOD)</span>
-                <h2 className="text-xl font-semibold mt-0.5">Plan de Trabajo Estratégico (36 Meses)</h2>
-                <p className={`text-xs ${subtleText}`}>Hoja de ruta ejecutiva, implementaciones clave y perfiles requeridos por fase para Grupo Cano</p>
+                <h2 className="text-xl font-semibold mt-0.5">Plan de Trabajo Estratégico & Detalle por Fase (36 Meses)</h2>
+                <p className={`text-xs ${subtleText}`}>Haz clic en cualquier tarjeta de fase para desplegar el desglose profundo de entregables y KPIs.</p>
               </div>
               <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#34C759]/15 text-[#34C759]">Estructura de Ejecución Activa</span>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {MOOD_ROADMAP.map((item, idx) => (
-                <div key={idx} className="p-5 rounded-2xl border border-black/5 dark:border-white/10 flex flex-col justify-between bg-black/[0.01] dark:bg-white/[0.02] gap-4">
+              {DETAILED_MOOD_ROADMAP.map((item, idx) => (
+                <div 
+                  key={idx} 
+                  onClick={() => setSelectedPhaseModal(item)}
+                  className="p-5 rounded-2xl border border-black/5 dark:border-white/10 flex flex-col justify-between bg-black/[0.01] dark:bg-white/[0.02] gap-4 hover:border-[#0071E3] transition cursor-pointer group"
+                >
                   <div>
                     <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded-full bg-[#0071E3]/10 text-[#0071E3]">{item.phase}</span>
-                    <h3 className="text-base font-semibold mt-3">{item.title}</h3>
+                    <h3 className="text-base font-semibold mt-3 group-hover:text-[#0071E3] transition">{item.title}</h3>
                     <p className={`text-xs mt-1 ${subtleText}`}>{item.focus}</p>
+
+                    <div className="mt-4 space-y-2">
+                      <div className="text-[11px] uppercase font-semibold text-[#0071E3] flex items-center gap-1">
+                        <Target className="w-3.5 h-3.5" /> KPI Objetivo de Fase:
+                      </div>
+                      <p className="text-xs font-medium p-2.5 rounded-xl bg-[#0071E3]/5 border border-[#0071E3]/10">
+                        {item.kpiTarget}
+                      </p>
+                    </div>
 
                     <div className="mt-4 space-y-2">
                       <div className="text-[11px] uppercase font-semibold text-[#0071E3]">Implementaciones Core:</div>
@@ -898,16 +930,21 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className="pt-3 border-t border-black/5 dark:border-white/5">
-                    <div className="text-[11px] uppercase font-semibold text-[#34C759] flex items-center gap-1.5 mb-2">
-                      <Users className="w-3.5 h-3.5" /> Perfiles Requeridos:
+                  <div className="pt-3 border-t border-black/5 dark:border-white/5 space-y-3">
+                    <div>
+                      <div className="text-[11px] uppercase font-semibold text-[#34C759] flex items-center gap-1.5 mb-1.5">
+                        <Users className="w-3.5 h-3.5" /> Perfiles Requeridos:
+                      </div>
+                      <div className="flex flex-wrap gap-1">
+                        {item.roles.map((role, rIdx) => (
+                          <span key={rIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/10 font-medium">
+                            {role}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-1">
-                      {item.roles.map((role, rIdx) => (
-                        <span key={rIdx} className="text-[10px] px-2 py-0.5 rounded-md bg-black/5 dark:bg-white/10 font-medium">
-                          {role}
-                        </span>
-                      ))}
+                    <div className="text-right text-[11px] text-[#0071E3] font-semibold">
+                      Ver Entregables y Detalle Completo →
                     </div>
                   </div>
                 </div>
@@ -916,6 +953,64 @@ export default function App() {
           </section>
         )}
       </main>
+
+      {/* Modal de Detalle Profundo por Fase */}
+      {selectedPhaseModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className={`max-w-2xl w-full p-6 rounded-3xl border shadow-2xl ${cardBg} space-y-5`}>
+            <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10">
+              <div>
+                <span className="text-xs font-mono text-[#0071E3] font-semibold">{selectedPhaseModal.phase}</span>
+                <h3 className="text-lg font-semibold">{selectedPhaseModal.title}</h3>
+              </div>
+              <button onClick={() => setSelectedPhaseModal(null)} className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 cursor-pointer">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-4 text-xs leading-relaxed">
+              <div className="p-3.5 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04]">
+                <strong className="text-[#0071E3] uppercase text-[11px] block mb-1">Enfoque Estratégico:</strong>
+                {selectedPhaseModal.focus}
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-[#34C759]/10 border border-[#34C759]/20">
+                <strong className="text-[#34C759] uppercase text-[11px] block mb-1">Meta y KPI Crítico de Éxito:</strong>
+                {selectedPhaseModal.kpiTarget}
+              </div>
+
+              <div>
+                <strong className="uppercase text-[11px] text-[#0071E3] block mb-2">Entregables Tangibles Esperados:</strong>
+                <ul className="space-y-2">
+                  {selectedPhaseModal.deliverables.map((deliv, dIdx) => (
+                    <li key={dIdx} className="flex items-start gap-2 p-2 rounded-xl bg-black/[0.02] dark:bg-white/[0.02]">
+                      <FileText className="w-4 h-4 text-[#0071E3] shrink-0 mt-0.5" />
+                      <span>{deliv}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div>
+                <strong className="uppercase text-[11px] text-[#34C759] block mb-2">Talento y Perfiles Asignados:</strong>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedPhaseModal.roles.map((rol, rIdx) => (
+                    <span key={rIdx} className="px-2.5 py-1 rounded-lg bg-[#0071E3]/10 text-[#0071E3] font-medium text-xs">
+                      {rol}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-black/10 dark:border-white/10 text-right">
+              <button onClick={() => setSelectedPhaseModal(null)} className="px-5 py-2.5 rounded-xl bg-[#0071E3] text-white text-xs font-semibold cursor-pointer">
+                Cerrar Detalle
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal Pitch de Entrevista */}
       {showPitchModal && (
